@@ -8,41 +8,80 @@ namespace AndroidAntipodalApp
 {
     internal class MainPageViewModel : INotifyPropertyChanged
     {
-        private double dMS_Degrees;
+        private double dms_Degrees;
         private double deg_Radians;
         private double radians_Deg;
         private string deg_DMS;
         private double greatCircle_Calulation;
         private string viewableMileage_AtHeight;
         private double[] get_AntiPodal;
-
+                
         public double DMS_Degrees
         {
-            get => 
-            set => dMS_Degrees = value;
+            get => dms_Degrees;
+            set
+            {
+                DMS_Degrees = value;
+                OnPropertyChanged();
+            }
         }
         public double Deg_Radians
         { 
-            get => deg_Radians; 
-            set => deg_Radians = value; 
+            get => deg_Radians;
+            set
+            {
+                deg_Radians = value;
+                OnPropertyChanged();
+            }
         }
         public double Radians_Deg
         { 
-            get => radians_Deg; 
-            set => radians_Deg = value; 
+            get => radians_Deg;
+            set
+            {
+                radians_Deg = value;
+                OnPropertyChanged();
+            }  
         }
         public string Deg_DMS
         {
             get => deg_DMS;
-            set => deg_DMS = value;
+            set
+            {
+                deg_DMS = value;
+                OnPropertyChanged();
+            }
         }
         public double GreatCircle_Calulation
         { 
             get => greatCircle_Calulation;
-            set => greatCircle_Calulation = value;
+            set
+            {
+                greatCircle_Calulation = value;
+                OnPropertyChanged();
+            }
+            
         }
-        public string ViewableMileage_AtHeight { get => viewableMileage_AtHeight; set => viewableMileage_AtHeight = value; }
-        public double[] Get_AntiPodal { get => get_AntiPodal; set => get_AntiPodal = value; }
+        public string ViewableMileage_AtHeight
+        {
+            get => viewableMileage_AtHeight; 
+            set
+            {
+                viewableMileage_AtHeight = value;
+                OnPropertyChanged();
+            }
+            
+        }
+        public double[] Get_AntiPodal 
+        { 
+            get => get_AntiPodal; 
+            set
+            {
+                get_AntiPodal = value;
+                OnPropertyChanged();
+            }
+            
+        }
 
         public double Convert_DMS_Degrees(double deg, double min, double sec)
         {
@@ -89,10 +128,10 @@ namespace AndroidAntipodalApp
 
         public double Convert_GreatCircle_Calulation(double LatDeg1, double LongDeg1, double LatDeg2, double LongDeg2)
         {
-            LatDeg1 = Deg_Radians(LatDeg1);
-            LongDeg1 = Deg_Radians(LongDeg1);
-            LatDeg2 = Deg_Radians(LatDeg2);
-            LongDeg2 = Deg_Radians(LongDeg2);
+            LatDeg1 = Convert_Deg_Radians(LatDeg1);
+            LongDeg1 = Convert_Deg_Radians(LongDeg1);
+            LatDeg2 = Convert_Deg_Radians(LatDeg2);
+            LongDeg2 = Convert_Deg_Radians(LongDeg2);
 
             double result = (Math.Acos(Math.Sin(LatDeg1) * Math.Sin(LatDeg2) + Math.Cos(LatDeg1) * Math.Cos(LatDeg2) * Math.Cos(LongDeg1 - LongDeg2)) * 3959);
             result = Math.Round(result, 1);
@@ -120,8 +159,8 @@ namespace AndroidAntipodalApp
 
         public double[] Convert_Get_AntiPodal(double latdeg, double latmin, double latsec, double longdeg, double longmin, double longsec)
         {
-            double Lat = DMS_Degrees(latdeg, latmin, latsec);
-            double Long = DMS_Degrees(longdeg, longmin, longsec);
+            double Lat = Convert_DMS_Degrees(latdeg, latmin, latsec);
+            double Long = Convert_DMS_Degrees(longdeg, longmin, longsec);
             Lat = -Lat;
             Long = Long + 180;
             return new double[2] { Lat, Long };
